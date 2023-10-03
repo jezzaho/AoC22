@@ -11,7 +11,10 @@ func main() {
 	// fmt.Println("++++++++++")
 	// day2p1()
 	// fmt.Println("++++++++++")
-	fmt.Println("Day 03 of AoC22!")
-	day3p2()
+	// fmt.Println("Day 03 of AoC22!")
+	// day3p1()
+	// day3p2()
+	// fmt.Println("++++++++++")
+	fmt.Println("Day 04 of AoC22!")
 
 }

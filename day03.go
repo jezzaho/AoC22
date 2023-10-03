@@ -6,7 +6,6 @@ import (
 	"log"
 	"os"
 	"strings"
-	"sync"
 )
 
 func day3p1() {
@@ -66,22 +65,17 @@ func day3p2() {
 	// Reading one by one using scanner
 	scanner := bufio.NewScanner(f)
 	counter := 0
-	ch := make(chan string, 3)
 	var lines []string
-	var wg sync.WaitGroup
-
 	for scanner.Scan() {
 		line := scanner.Text()
 		lines = append(lines, line)
 
 		if len(lines) == 3 {
-			wg.Add(1)
-			go func(lines []string) {
-				defer wg.Done()
-				ch <- strings.Join(lines, "\n")
-			}(lines)
+			counter += processGroup(lines)
+			lines = nil
 		}
 	}
+	fmt.Printf(`The value is: %v`, counter)
 }
 
 func processGroup(lines []string) int {
