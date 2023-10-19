@@ -13,7 +13,7 @@ type movement struct {
 	amount, from, to int
 }
 
-func day5p1() {
+func day5() {
 	f, err := os.Open("./data/05.txt")
 	if err != nil {
 		log.Fatal(err)
@@ -30,9 +30,9 @@ func day5p1() {
 	containerDup = manipulatePart2(movementsDup, containerDup)
 
 	resultPartOne := showTop(container)
-	fmt.Println("The result is: " + resultPartOne)
+	fmt.Println("The result for Part 1 is: " + resultPartOne)
 	resultPartTwo := showTop(containerDup)
-	fmt.Println("The result is: " + resultPartTwo)
+	fmt.Println("The result for Part 2 is: " + resultPartTwo)
 }
 func loadData(f *os.File) (map[int][]string, []movement) {
 	stack := make(map[int][]string)
@@ -63,8 +63,7 @@ func manipulatePart1(mList []movement, c map[int][]string) map[int][]string {
 	for i := 0; i < len(mList); i++ {
 		m := mList[i]
 		for i := 0; i < m.amount; i++ {
-			el := c[m.from-1][0]
-			c[m.to-1] = append([]string{el}, c[m.to-1]...)
+			c[m.to-1] = append([]string{c[m.from-1][0]}, c[m.to-1]...)
 			c[m.from-1] = c[m.from-1][1:]
 		}
 	}
@@ -74,8 +73,7 @@ func manipulatePart1(mList []movement, c map[int][]string) map[int][]string {
 func manipulatePart2(mList []movement, c map[int][]string) map[int][]string {
 	for i := 0; i < len(mList); i++ {
 		m := mList[i]
-		el := c[m.from-1][:m.amount:m.amount]
-		c[m.to-1] = append(el, c[m.to-1]...)
+		c[m.to-1] = append(c[m.from-1][:m.amount:m.amount], c[m.to-1]...)
 		c[m.from-1] = c[m.from-1][m.amount:]
 	}
 
