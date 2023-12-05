@@ -1,3 +1,3 @@
-module adventofcode2023
+module github.com/jezzaho/jezzaho_adventofcode
 
-go 1.21.4
+go 1.21.1

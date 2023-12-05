@@ -34,25 +34,34 @@ func day2part1() int {
 		pool = append(pool, newGame)
 
 	}
-	for _, game := range pool {
-		colorCheck("red", &game, 12)
-		if &game.possible {
-			colorCheck("green", &game, 13)
+	// for _, game := range pool {
+	// 	colorCheck("red", &game, 12)
+	// 	if game.possible {
+	// 		colorCheck("green", &game, 13)
+	// 	}
+	// 	if game.possible {
+	// 		colorCheck("blue", &game, 14)
+	// 	}
+	// }
+	for i := range pool {
+		colorCheck("red", &pool[i], 12)
+		if pool[i].possible {
+			colorCheck("green", &pool[i], 13)
 		}
-		if &game.possible {
-			colorCheck("blue", &game, 14)
+		if pool[i].possible {
+			colorCheck("blue", &pool[i], 14)
 		}
 	}
-	
-	count := 100
+
+	score := 0
 
 	for _, game := range pool {
-		if !game.possible { 
-			count--
+		if game.possible {
+			score += game.number
 		}
 	}
 
-	return count
+	return score
 
 }
 
