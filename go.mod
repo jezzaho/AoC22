@@ -1,3 +1,3 @@
-module github.com/jezzaho/aoc22
+module github.com/jezzaho/jezzaho_adventofcode
 
 go 1.21.1
