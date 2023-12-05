@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"log"
 	"regexp"
@@ -18,12 +19,8 @@ type Game struct {
 
 type GamePool []Game
 
-func day2part1() int {
-	scanner, file := getScanner(D2FP)
-
-	defer file.Close()
+func readFile(scanner *bufio.Scanner) GamePool {
 	pool := GamePool{}
-
 	for scanner.Scan() {
 		line := scanner.Text()
 		newGame := Game{}
@@ -34,6 +31,13 @@ func day2part1() int {
 		pool = append(pool, newGame)
 
 	}
+	return pool
+}
+
+func day2part1() int {
+	scanner, file := getScanner(D2FP)
+	defer file.Close()
+	pool := readFile(scanner)
 	// for _, game := range pool {
 	// 	colorCheck("red", &game, 12)
 	// 	if game.possible {
@@ -65,11 +69,49 @@ func day2part1() int {
 
 }
 
-func colorCheck(color string, game *Game, limit int) {
+func day2part2() int {
+	scanner, file := getScanner(D2FP)
+	defer file.Close()
+	pool := readFile(scanner)
+	red, green, blue := 0, 0, 0
+	score := 0
+	for i := range pool {
+		red = minimumCheck("red", &pool[i])
+		green = minimumCheck("green", &pool[i])
+		blue = minimumCheck("blue", &pool[i])
+		score += red * green * blue
+	}
+	return score
+}
+func patternFind(color string, game *Game) [][]string {
 	pattern := fmt.Sprintf(`\d+ %s`, color)
 	re := regexp.MustCompile(pattern)
 
 	matches := re.FindAllStringSubmatch(game.content, -1)
+
+	return matches
+}
+
+func minimumCheck(color string, game *Game) int {
+	matches := patternFind(color, game)
+	atleast := 0
+
+	for _, match := range matches {
+		parts := strings.Split(match[0], " ")
+		number, err := strconv.Atoi(parts[0])
+		if err != nil {
+			log.Fatal(err)
+		}
+		if number > atleast {
+			atleast = number
+		}
+	}
+
+	return atleast
+}
+
+func colorCheck(color string, game *Game, limit int) {
+	matches := patternFind(color, game)
 	biggest := 0
 	// var biggest int
 	for _, match := range matches {
